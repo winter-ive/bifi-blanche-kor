@@ -1,0 +1,218 @@
+---
+import { products } from "../data/products.js";
+const formatPrice = (n: number) => n.toLocaleString("ko-KR") + "원";
+---
+<section class="product-section" aria-label="Best Products">
+  <div class="ps-grid">
+    <!-- Text panel (dissolve slides) -->
+    <div class="ps-text">
+      {products.map((p, i) => (
+        <div class:list={["slide-text", { active: i === 0 }]} data-idx={i} aria-hidden={i === 0 ? "false" : "true"}>
+          <p class="badge">{p.badge}</p>
+          <h3 class="name-en">{p.nameEn.split("\n").map((l) => <span>{l}<br /></span>)}</h3>
+          <p class="name-kr">{p.nameKr}</p>
+          <span class="price-original">{formatPrice(p.originalPrice)}</span>
+          <div class="price-row">
+            
+            <span class="price-current">{formatPrice(p.price)}</span>
+            <span class="price-badge">{p.discountRate}%</span>
+          </div>
+          <a class="shop-btn" href={p.shopUrl} target="_blank" rel="noopener">SHOP NOW</a>
+        </div>
+      ))}
+      <!-- Right arrow at the right edge of the text panel -->
+      <button class="ps-arrow" id="psNext" aria-label="Next product">
+        <svg width="27" height="48" viewBox="0 0 14 24" fill="none" aria-hidden="true">
+          <path d="M2 2 L12 12 L2 22" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Image panel (dissolve slides) -->
+    <div class="ps-image">
+      {products.map((p, i) => (
+        <div class:list={["slide-img", { active: i === 0 }]} data-idx={i} aria-hidden={i === 0 ? "false" : "true"}>
+          <img src={p.image} alt={p.nameKr} loading={i === 0 ? "eager" : "lazy"} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-section { background: var(--c-white); position: relative; }
+  .ps-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 620px;
+    position: relative;
+  }
+
+  .ps-text {
+    position: relative;
+    background: var(--c-white);
+    display: grid;
+    place-items: center;
+    padding: 100px 40px;
+  }
+  .slide-text {
+    grid-area: 1 / 1;
+    text-align: center;
+    max-width: 440px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+  }
+  .slide-text.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .badge {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: var(--ls-display);
+    margin-bottom: 80px;
+    color: var(--c-text);
+  }
+  .name-en {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .name-kr {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--c-text-sub);
+    margin-bottom: 62px;
+    letter-spacing: -0.02em;
+    line-height: 1.6;
+  }
+  .price-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 84px;
+  }
+  .price-original {
+    font-size: 18px;
+    color: var(--c-text-mute);
+    text-decoration: line-through;
+  }
+  .price-current {
+    font-size: 20px;
+    color: var(--c-text);
+  }
+  .price-badge {
+    background: var(--c-ticker-text);
+    color: var(--c-white);
+    transform: translateY(1px);
+    font-size: 12px;
+    padding: 0 2px;
+  }
+  .shop-btn {
+    display: inline-block;
+    min-width: 200px;
+    padding: 10px 26px;
+    border: 1px solid #222;
+    font-size: 14px;
+    letter-spacing: var(--ls-button);
+    font-weight: 300;
+    transition: background .2s, color .2s;
+  }
+  .shop-btn:hover { background: #222; color: var(--c-white); }
+
+  .ps-image {
+    position: relative;
+    background: #F5F2E6;
+    overflow: hidden;
+    min-height: 620px;
+    display: grid;
+  }
+  .slide-img {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease;
+    overflow: hidden;
+  }
+  .slide-img.active { opacity: 1; }
+  .slide-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Right arrow — 좌측 텍스트 패널 안쪽 오른쪽에 배치 */
+  .ps-arrow {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 87px;
+    height: 87px;
+    display: grid;
+    place-items: center;
+    color: var(--c-text);
+    background: transparent;
+    z-index: 2;
+    transition: opacity .2s;
+  }
+  .ps-arrow:hover { opacity: .55; }
+
+  @media (max-width: 900px) {
+    .ps-grid { grid-template-columns: 1fr; }
+    .ps-text { padding: 60px 24px; order: 2; }
+    .ps-image { order: 1; min-height: 420px; }
+    .ps-arrow {
+      right: 20px;
+      top: 40px;
+      transform: none;
+      width: 44px;
+      height: 44px;
+    }
+    .badge { font-size: 20px; margin-bottom: 28px; }
+    .shop-btn { min-width: 260px; }
+  }
+</style>
+
+<script>
+  const texts = document.querySelectorAll('.slide-text');
+  const imgs = document.querySelectorAll('.slide-img');
+  const total = texts.length;
+  let current = 0;
+  let timer: number | undefined;
+
+  const show = (i: number) => {
+    current = (i + total) % total;
+    texts.forEach((el, idx) => {
+      el.classList.toggle('active', idx === current);
+      el.setAttribute('aria-hidden', idx === current ? 'false' : 'true');
+    });
+    imgs.forEach((el, idx) => {
+      el.classList.toggle('active', idx === current);
+      el.setAttribute('aria-hidden', idx === current ? 'false' : 'true');
+    });
+  };
+  const start = () => {
+    if (total < 2) return;
+    stop();
+    timer = window.setInterval(() => show(current + 1), 5000);
+  };
+  const stop = () => {
+    if (timer) { clearInterval(timer); timer = undefined; }
+  };
+
+  show(0);
+  start();
+
+  document.getElementById('psNext')?.addEventListener('click', () => { show(current + 1); start(); });
+
+  document.querySelector('.product-section')?.addEventListener('mouseenter', stop);
+  document.querySelector('.product-section')?.addEventListener('mouseleave', start);
+</script>

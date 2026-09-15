@@ -1,0 +1,194 @@
+---
+const naverStoreUrl = "https://smartstore.naver.com/";
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => pathname === href || (href !== '/' && pathname.startsWith(href));
+// brand 페이지에서만 로고/메뉴 흰색 반전
+const inverted = pathname.startsWith('/brand');
+const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2x.png';
+---
+<header class:list={["site-header", { inverted }]} id="siteHeader">
+  <div class="header-inner">
+    <nav class="nav-left" aria-label="primary">
+      <a href="/brand" class:list={["nav-link", { active: isActive('/brand') }]}>BRAND</a>
+      <a href="/news" class:list={["nav-link", { active: isActive('/news') }]}>NEWS</a>
+    </nav>
+
+    <a class="brand-logo" href="/" aria-label="Bifi Blanche home">
+      <img src={logoSrc} alt="Bifi Blanche" />
+    </a>
+
+    <div class="nav-right">
+      <a href={naverStoreUrl} class="nav-link" target="_blank" rel="noopener">
+        NAVER STORE↗
+        <!-- <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/></svg> -->
+      </a>
+    </div>
+
+    <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <a class="brand-logo-m" href="/">
+      <img src="/images/nav_logo_2x.png" alt="Bifi Blanche" />
+    </a>
+    <button class="mobile-close" id="mobileClose" aria-label="Close menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4L20 20M20 4L4 20" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+    <ul class="mobile-links">
+      <li><a href="/brand">BRAND</a></li>
+      <li><a href="/news">NEWS</a></li>
+    </ul>
+    <div class="mobile-cta">
+      <a href={naverStoreUrl} target="_blank" rel="noopener">NAVER STORE ↗</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-h);
+    z-index: 1000;
+    background: transparent;
+    color: var(--c-text);
+  }
+  .site-header.inverted { color: var(--c-white); }
+
+  .header-inner {
+    position: relative;
+    max-width: var(--site-max);
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 var(--site-pad);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex: 1;
+  }
+  .nav-right { justify-content: flex-end; }
+
+  .nav-link {
+    font-size: 18px;
+    letter-spacing: var(--ls-nav);
+    font-weight: 400;
+    color: inherit;
+    transition: opacity .2s ease;
+  }
+  .nav-link:hover { opacity: .6; }
+  .nav-link.active { opacity: .6; }
+
+  .brand-logo {
+    position: absolute;
+    left: 50%;
+    top: 120%;
+    transform: translate(-50%, -50%);
+    display: block;
+  }
+  .brand-logo img { width: 190px; height: auto; }
+
+  /*.naver-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    letter-spacing: var(--ls-nav);
+    font-weight: 500;
+    color: inherit;
+  }
+  .naver-link:hover { opacity: .6; }
+  .naver-link svg { transform: translateY(-1px); } nav-link와 스타일 통일*/
+
+  /* Mobile */
+  .mobile-toggle { display: none; flex-direction: column; gap: 4px; width: 26px; height: 20px; justify-content: center; }
+  .mobile-toggle span { display: block; width: 24px; height: 1.5px; background: currentColor; }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: translateY(-100%);
+    transition: transform .3s ease;
+    color: var(--c-text);
+  }
+  .mobile-menu.open { transform: translateY(0); }
+  .mobile-menu-inner {
+    padding: 32px 24px;
+    position: relative;
+    height: 100%;
+  }
+  .brand-logo-m img { width: 90px; margin-top: 20px; }
+  .mobile-close {
+    position: absolute;
+    top: 24px;
+    right: 20px;
+  }
+  .mobile-links {
+    margin-top: 80px;
+    border-top: 1px solid #E0E0E0;
+  }
+  .mobile-links li { border-bottom: 1px solid #E0E0E0; }
+  .mobile-links a {
+    display: block;
+    padding: 22px 0;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  .mobile-cta {
+    position: absolute;
+    bottom: 40px;
+    left: 24px;
+    right: 24px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 900px) {
+    .header-inner { padding: 0 20px; }
+    .nav-left, .nav-right { display: none; }
+    .brand-logo { position: static; transform: none; }
+    .brand-logo img { width: 74px; }
+    .mobile-toggle { display: flex; }
+    .header-inner { justify-content: space-between; }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('mobileToggle');
+  const menu = document.getElementById('mobileMenu');
+  const close = document.getElementById('mobileClose');
+  toggle?.addEventListener('click', () => {
+    menu?.classList.add('open');
+    menu?.setAttribute('aria-hidden', 'false');
+    toggle.setAttribute('aria-expanded', 'true');
+  });
+  close?.addEventListener('click', () => {
+    menu?.classList.remove('open');
+    menu?.setAttribute('aria-hidden', 'true');
+    toggle?.setAttribute('aria-expanded', 'false');
+  });
+  menu?.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      menu?.classList.remove('open');
+    });
+  });
+</script>

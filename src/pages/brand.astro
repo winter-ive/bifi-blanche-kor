@@ -1,0 +1,236 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="BRAND | Bifi Blanche">
+  <!-- Hero: watercolor forest with character -->
+  <section class="brand-hero">
+    <video class="brand-hero-video" autoplay muted loop playsinline
+      poster="/images/brand_bg.jpg" preload="metadata" aria-hidden="true">
+      <source src="/images/brand_video_pc.mp4" type="video/mp4" media="(min-width: 900px)" />
+      <source src="/images/brand_video_mobile.mp4" type="video/mp4" />
+    </video>
+  </section>
+
+  <!-- Innocent Balance -->
+  <section class="ib">
+    <div class="ib-grid">
+      <div class="ib-text">
+        <h2 class="ib-title">INNOCENT BALANCE</h2>
+        <p>비피블랑쉬는 피부의 균형을 생각합니다.</p>
+        <p>
+          피부를 인위적으로 고치려 하지 않고,<br />
+          '신비 콤플렉스'를 중심으로, 피부 스스로 편안함을<br />
+          되찾을 수 있도록 돕습니다.
+        </p>
+        <p>
+          즉각적인 변화보다, 꾸준하게 피부 본연의 순수함을 지켜주는 것,<br />
+          그것이 바로 비피블랑쉬가 추구하는 화장품입니다.
+        </p>
+        <p>비피블랑쉬의 순수함을 경험해보세요.</p>
+      </div>
+      <div class="ib-image" role="img" aria-label="Bifi Blanche bottles"></div>
+    </div>
+  </section>
+
+  <!-- Brand Principles -->
+  <section class="bp">
+    <h2 class="bp-title">BRAND PRINCIPLES</h2>
+    <div class="bp-grid">
+      <div class="bp-item">
+        <div class="bp-visual"><img class="bp-icon" src="/images/brand-principles_01.png" alt="" /></div>
+        <h4>마이크로바이옴 생태계 보호</h4>
+        <p>발효 성분과 프리바이오틱 조합이<br />피부 생태계를 건강하게 유지하도록<br />포뮬라 단계부터 설계되었습니다.</p>
+      </div>
+      <div class="bp-item">
+        <div class="bp-visual"><img class="bp-icon" src="/images/brand-principles_02.png" alt="" /></div>
+        <h4>자극 지수 0.00 원칙</h4>
+        <p>마이크로바이옴 생태계를 고려하여<br />성분을 선별하고, 피부 자극 가능성을<br />최소화하는 방향으로 개발되었습니다.</p>
+      </div>
+      <div class="bp-item">
+        <div class="bp-visual"><img class="bp-icon" src="/images/brand-principles_03.png" alt="" /></div>
+        <h4>유리병 패키징의 선택</h4>
+        <p>피부의 균형뿐 아니라 내용물을 담는<br />용기까지 생각했습니다.<br />보관 특성을 고려해 유리병 패키지를 사용했으며,<br />재활용이 가능한 소재를 선택했습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About our brand -->
+  <section class="about">
+    <video class="about-video" autoplay muted loop playsinline
+      poster="/images/core_bg.jpg" preload="metadata" aria-hidden="true">
+      <source src="/images/about-our-brand_video_pc.mp4" type="video/mp4" />
+    </video>
+    <div class="about-overlay" aria-hidden="true"></div>
+    <div class="about-inner">
+      <h2>ABOUT OUR BRAND</h2>
+      <p>
+        비피블랑쉬는 피부를 하나의 생태계로 바라봅니다.<br />
+        외부 자극과 환경 변화로 흐트러진 피부의 리듬을 '가장 나다운' 상태로<br />
+        다시 되돌릴 수 있도록 순수하고 조화로운 균형을 추구합니다.
+      </p>
+      <p>순수한 밸런스, 그것이 비피블랑쉬가 지향하는 아름다움입니다.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .brand-hero {
+    margin-top: calc(var(--nav-h) * -1);
+    padding-top: 0;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    height: min(80vh, 760px);
+  }
+  .brand-hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* INNOCENT BALANCE: 좌 텍스트(사이트 패딩 유지) + 우 이미지(우측 끝까지 full-bleed) */
+  .ib {
+    background: #EEEEE0;
+  }
+  .ib-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 560px;
+    align-items: stretch;
+  }
+  .ib-text {
+    padding: 120px 40px 120px max(40px, calc((100vw - var(--site-max)) / 2 + var(--site-pad)));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 22px;
+  }
+  .ib-title {
+    font-size: 26px;
+    letter-spacing: var(--ls-display);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .ib-text p { font-size: 15px; font-weight: 300; line-height: 1.95; color: var(--c-text); }
+  .ib-image {
+    background: url("/images/main_img.jpg") center/cover no-repeat;
+    background-color: #E8E8E8;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+  }
+
+  .bp {
+    background: var(--c-white);
+    padding: 110px 40px 130px;
+    text-align: center;
+  }
+  .bp-title {
+    font-size: 26px;
+    letter-spacing: var(--ls-display);
+    font-weight: 600;
+    margin-bottom: 70px;
+  }
+  .bp-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+  .bp-item h4 {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 28px 0 14px;
+    letter-spacing: 0.02em;
+  }
+  .bp-item p { font-size: 13px; font-weight: 300; color: var(--c-text-sub); line-height: 1.85; }
+  .bp-visual {
+    width: 240px;
+    height: 240px;
+    margin: 0 auto;
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+  .bp-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* 뒤뚱뒤뚱 wobble — PNG를 하단 중앙 축으로 좌/우/우+ 기울여 흔들리는 애니메이션
+     · 참고: brand-principles_icon-animation_참고.mp4 = 1.2s / 4프레임
+     · 회전 축은 아이콘 하단 중앙 (bottom center)
+     · 각도: -8° → +8° → +14° → -4° → (loop -8°)
+     · 3개 아이콘에 딜레이 0s / 0.4s / 0.8s 어긋나게 */
+  .bp-icon {
+    transform-origin: 50% 100%;
+    animation: bp-wobble 1.2s ease-in-out infinite;
+    will-change: transform;
+  }
+  .bp-item:nth-child(1) .bp-icon { animation-delay: 0s; }
+  .bp-item:nth-child(2) .bp-icon { animation-delay: 0.4s; }
+  .bp-item:nth-child(3) .bp-icon { animation-delay: 0.8s; }
+
+  @keyframes bp-wobble {
+    0%,  100% { transform: rotate(-8deg); }
+    25%       { transform: rotate(8deg); }
+    50%       { transform: rotate(14deg); }
+    75%       { transform: rotate(-4deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bp-icon { animation: none; }
+  }
+
+  .about {
+    position: relative;
+    padding: 150px 20px;
+    color: var(--c-white);
+    text-align: center;
+    overflow: hidden;
+  }
+  .about-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .about-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(120,145,180,.28), rgba(90,120,170,.42));
+    z-index: 1;
+    pointer-events: none;
+  }
+  .about-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 740px;
+    margin: 0 auto;
+  }
+  .about-inner h2 {
+    font-size: 24px;
+    letter-spacing: var(--ls-display);
+    margin-bottom: 36px;
+    font-weight: 600;
+  }
+  .about-inner p { font-size: 15px; font-weight: 300; line-height: 2; margin-bottom: 16px; }
+
+  @media (max-width: 1023px) {
+    .ib-grid { grid-template-columns: 1fr; }
+    .ib-text { padding: 60px 24px; }
+    .ib-image { min-height: 320px; }
+    .bp { padding: 80px 24px; }
+    .bp-grid { grid-template-columns: 1fr; gap: 60px; }
+    .bp-visual { width: 200px; height: 200px; }
+    .about { padding: 100px 20px; }
+  }
+</style>

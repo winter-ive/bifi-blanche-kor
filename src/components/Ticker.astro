@@ -1,0 +1,50 @@
+---
+const message = "Bifi sets off again, unwavering in search of purity, hoping that one day,with purity, the world will bloom a little brighter.";
+const repeat = 8;
+---
+<div class="ticker" role="marquee" aria-label="brand slogan">
+  <div class="ticker-track">
+    {Array.from({ length: repeat }).map(() => (
+      <span class="ticker-item">{message}</span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .ticker {
+    position: relative;
+    width: 100%;
+    height: var(--ticker-h);
+    background: var(--c-ticker-bg);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    z-index: 1001;
+  }
+  .ticker-track {
+    display: flex;
+    gap: 320px;
+    white-space: nowrap;
+    animation: ticker 90s linear infinite;
+    will-change: transform;
+    padding-left: 320px;
+  }
+  .ticker-item {
+    color: var(--c-ticker-text);
+    font-size: 12px;
+    letter-spacing: 0;
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @media (max-width: 1023px) {
+    .ticker-track { gap: 200px; padding-left: 200px; animation-duration: 70s; }
+  }
+  @media (max-width: 640px) {
+    .ticker-item { font-size: 11px; }
+    .ticker-track { gap: 140px; padding-left: 140px; animation-duration: 50s; }
+  }
+</style>

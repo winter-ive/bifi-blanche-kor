@@ -1,0 +1,115 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { news } from "../../data/news.js";
+
+const sorted = [...news].sort((a, b) => (a.date < b.date ? 1 : -1));
+---
+<BaseLayout title="NEWS | Bifi Blanche">
+  <section class="news-list">
+    <div class="news-inner">
+      <h1 class="page-title">NEWS</h1>
+      <p class="page-sub">비피블랑쉬의 소식을 전해드립니다.</p>
+
+      <ul class="cards">
+        {sorted.map((n) => (
+          <li class="card">
+            <a href={`/news/${n.slug}`} class="card-link">
+              <div class="thumb" style={`background-image:url('${n.thumbnail}')`} aria-hidden="true"></div>
+              <div class="body">
+                <p class="date">{n.date}</p>
+                <h3 class="title">{n.title}</h3>
+                <p class="excerpt">{n.excerpt}</p>
+                <span class="more">READ MORE →</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .news-list {
+    background: var(--c-white);
+    padding: calc(var(--nav-h) + 40px) 40px 120px;
+    min-height: 80vh;
+  }
+  .news-inner { max-width: 1200px; margin: 0 auto; }
+
+  .page-title {
+    font-size: 32px;
+    letter-spacing: var(--ls-display);
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .page-sub {
+    text-align: center;
+    color: var(--c-text-sub);
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 60px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .card {
+    border: 1px solid #EEE;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--c-white);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  }
+  .card-link { display: block; height: 100%; }
+  .thumb {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-size: cover;
+    background-position: center;
+    background-color: #F0F0F0;
+  }
+  .body { padding: 20px 24px 24px; }
+  .date {
+    font-size: 11px;
+    color: var(--c-text-mute);
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .excerpt {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--c-text-sub);
+    line-height: 1.7;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .more {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    font-weight: 400;
+    color: var(--c-text);
+  }
+
+  @media (max-width: 900px) {
+    .news-list { padding: calc(var(--nav-h) + 20px) 20px 80px; }
+    .cards { grid-template-columns: 1fr; gap: 20px; }
+    .page-title { font-size: 24px; }
+  }
+</style>

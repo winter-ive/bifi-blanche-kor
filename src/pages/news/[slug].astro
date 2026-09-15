@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { news } from "../../data/news.js";
+
+export function getStaticPaths() {
+  return news.map((n) => ({ params: { slug: n.slug }, props: { post: n } }));
+}
+const { post } = Astro.props;
+---
+<BaseLayout title={`${post.title} | Bifi Blanche NEWS`} description={post.excerpt}>
+  <article class="news-detail">
+    <div class="detail-inner">
+      <p class="date">{post.date}</p>
+      <h1 class="title">{post.title}</h1>
+
+      <div class="cover" style={`background-image:url('${post.thumbnail}')`}></div>
+
+      <div class="content" set:html={post.body}></div>
+
+      <div class="nav-back">
+        <a href="/news">← BACK TO NEWS</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .news-detail {
+    background: var(--c-white);
+    padding: calc(var(--nav-h) + 40px) 40px 120px;
+  }
+  .detail-inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .date {
+    font-size: 12px;
+    color: var(--c-text-mute);
+    letter-spacing: 0.08em;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .title {
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 0em;
+  }
+  .cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-size: cover;
+    background-position: center;
+    background-color: #F0F0F0;
+    margin-bottom: 60px;
+  }
+  .content {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.95;
+    color: var(--c-text);
+  }
+  .content :global(p) {
+    margin-bottom: 20px;
+  }
+  .content :global(img) {
+    width: 100%;
+    margin: 32px 0;
+  }
+  .content :global(strong) { font-weight: 500; }
+
+  .nav-back {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid #EEE;
+    text-align: center;
+  }
+  .nav-back a {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    font-weight: 600;
+  }
+  .nav-back a:hover { color: var(--c-accent); }
+
+  @media (max-width: 900px) {
+    .news-detail { padding: calc(var(--nav-h) + 20px) 20px 80px; }
+    .title { font-size: 22px; }
+    .cover { margin-bottom: 40px; }
+    .content { font-size: 14px; }
+  }
+</style>

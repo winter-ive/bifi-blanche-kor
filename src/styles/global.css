@@ -1,0 +1,117 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
+:root {
+  /* colors */
+  --c-bg: #ececee;
+  --c-bg-cream: #f2efde;
+  --c-bg-cream-2: #efedd5;
+  --c-bg-panel-r: #f5f4ea; /* BEST PRODUCT 우측 살짝 크림 (실사이즈 스샷 근사) */
+  --c-bg-olive: #86823e;
+  --c-bg-olive-text: #f0e9be;
+  --c-text: #444444;
+  --c-text-sub: #555;
+  --c-text-mute: #888;
+  --c-border: #d8d8d8;
+  --c-hairline: #d0d0d0;
+  --c-accent: #e62025;
+  --c-ticker-bg: #efecc9;
+  --c-ticker-text: #a8bad1;
+  --c-white: #ffffff;
+
+  /* sizes */
+  --nav-h: 88px;
+  --ticker-h: 34px;
+  --site-max: 1440px;
+  --site-pad: 60px;
+
+  /* type scale */
+  --fs-hero: 26px;
+  --fs-h2: 24px;
+  --fs-h3: 18px;
+  --fs-body: 14px;
+  --fs-small: 12px;
+  --fs-mini: 11px;
+
+  --ls-display: 0.03em;
+  --ls-heading: 0.03em;
+  --ls-button: 0em;
+  --ls-nav: 0.03em;
+  --ls-body: 0em;
+
+  --f-body:
+    "Pretendard Variable", Pretendard, -apple-system, system-ui,
+    "Malgun Gothic", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: var(--f-body);
+  color: var(--c-text);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  letter-spacing: var(--ls-body);
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol {
+  list-style: none;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--site-max);
+  margin: 0 auto;
+  padding: 0 var(--site-pad);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --site-pad: 32px;
+    --nav-h: 68px;
+  }
+}
+@media (max-width: 640px) {
+  :root {
+    --site-pad: 20px;
+  }
+}

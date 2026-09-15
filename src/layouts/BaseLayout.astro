@@ -1,0 +1,33 @@
+---
+import "../styles/global.css";
+import Ticker from "../components/Ticker.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FloatingIcons from "../components/FloatingIcons.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title = "Bifi Blanche", description = "피부의 순수한 균형을 지키는 스킨케어 브랜드 비피블랑쉬." } = Astro.props;
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="format-detection" content="telephone=no" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  </head>
+  <body>
+    <Ticker />
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <FloatingIcons />
+  </body>
+</html>

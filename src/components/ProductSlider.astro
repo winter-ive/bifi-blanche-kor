@@ -30,6 +30,7 @@ const formatPrice = (n: number) => n.toLocaleString("ko-KR") + "원";
 
     <!-- Image panel (dissolve slides) -->
     <div class="ps-image">
+ <div class="badge mobile">{p.badge}</div>
       {products.map((p, i) => (
         <div class:list={["slide-img", { active: i === 0 }]} data-idx={i} aria-hidden={i === 0 ? "false" : "true"}>
           <img src={p.image} alt={p.nameKr} loading={i === 0 ? "eager" : "lazy"} />
@@ -75,6 +76,9 @@ const formatPrice = (n: number) => n.toLocaleString("ko-KR") + "원";
     margin-bottom: 80px;
     color: var(--c-text);
   }
+  .badge.mobile {
+    display:none;
+}
   .name-en {
     font-size: 20px;
     font-weight: 600;
@@ -167,7 +171,15 @@ const formatPrice = (n: number) => n.toLocaleString("ko-KR") + "원";
   .ps-arrow:hover { opacity: .55; }
 
   @media (max-width: 900px) {
-    .ps-grid { grid-template-columns: 1fr; }
+    .badge { display:none;}
+    .badge.mobile { 
+      display:block;
+      font-size: 30px;
+      top: 25px;
+      margin: 0 auto;
+      z-index: 2;
+}
+.ps-grid { grid-template-columns: 1fr; }
     .ps-text { padding: 60px 24px; order: 2; }
     .ps-image { order: 1; min-height: 420px; }
     .ps-arrow {

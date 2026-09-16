@@ -13,9 +13,10 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
       <a href="/news" class:list={["nav-link", { active: isActive('/news') }]}>NEWS</a>
     </nav>
 
-    <a class="brand-logo" href="/" aria-label="Bifi Blanche home">
-      <img src={logoSrc} alt="Bifi Blanche" />
-    </a>
+<a class="brand-logo" href="/" aria-label="Bifi Blanche home">
+  <img class="logo-default" src="/images/nav_logo_2x.png" alt="Bifi Blanche" />
+  <img class="logo-white" src="/images/nav_logo_white_2x.png" alt="" aria-hidden="true" />
+</a>
 
     <div class="nav-right">
       <a href="https://smartstore.naver.com/bifiblanche/?utm_sources=bifiblanche.kr_header" class="nav-link" target="_blank" rel="noopener">

@@ -11,11 +11,11 @@ const formatPrice = (n: number) => n.toLocaleString("ko-KR") + "원";
           <p class="badge">{p.badge}</p>
           <h3 class="name-en">{p.nameEn.split("\n").map((l) => <span>{l}<br /></span>)}</h3>
           <p class="name-kr">{p.nameKr}</p>
-          <-- <span class="price-original">{formatPrice(p.originalPrice)}</span> -->
+          <!-- <span class="price-original">{formatPrice(p.originalPrice)}</span> -->
           <div class="price-row">
             
            <span class="price-current">{formatPrice(p.price)}</span>
-           <-- <span class="price-badge">{p.discountRate}%</span> -->
+           <!-- <span class="price-badge">{p.discountRate}%</span> -->
           </div>
           <a class="shop-btn" href={p.shopUrl} target="_blank" rel="noopener">SHOP NOW</a>
         </div>

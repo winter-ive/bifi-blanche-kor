@@ -30,7 +30,7 @@ const formatPrice = (n: number) => n.toLocaleString("ko-KR") + "원";
 
     <!-- Image panel (dissolve slides) -->
     <div class="ps-image">
- <div class="badge mobile">{p.badge}</div>
+       <div class="badge mobile">BEST PRODUCT</div>
       {products.map((p, i) => (
         <div class:list={["slide-img", { active: i === 0 }]} data-idx={i} aria-hidden={i === 0 ? "false" : "true"}>
           <img src={p.image} alt={p.nameKr} loading={i === 0 ? "eager" : "lazy"} />

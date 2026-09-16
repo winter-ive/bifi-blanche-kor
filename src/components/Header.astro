@@ -33,7 +33,7 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
 
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
   <div class="mobile-menu-inner">
-    <a class="brand-logo-m" href="/">
+    <a class="brand-logo m-menu" href="/">
       <img src="/images/nav_logo_2x.png" alt="Bifi Blanche" />
     </a>
     <button class="mobile-close" id="mobileClose" aria-label="Close menu">
@@ -100,7 +100,7 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
   }
   .brand-logo img { width: 190px; height: auto; transition: width 0.3s ease;  }
 
-.site-header.scrolled .brand-logo img {
+.site-header.scrolled .brand-logo.m-menu img {
  width: 80px;
  }
 
@@ -149,7 +149,7 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
     position: relative;
     height: 100%;
   }
-  .brand-logo-m {display: none;}
+  .brand-logo.m-menu { display: none; }
   /* .brand-logo-m img { width: 90px; margin-top: 20px; } brand-logo로 대체 */
   .mobile-close {
     position: absolute;

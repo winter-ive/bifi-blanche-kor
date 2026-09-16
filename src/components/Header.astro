@@ -100,7 +100,7 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
   }
   .brand-logo img { width: 190px; height: auto; transition: width 0.3s ease;  }
 
-.site-header.scrolled .brand-logo.m-menu img {
+.site-header.scrolled .brand-logo img {
  width: 80px;
  }
 
@@ -185,23 +185,13 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
     .nav-left, .nav-right { display: none; }
     .brand-logo { /* position: static; transform: none; */ top:100px; }
     /*  .brand-logo img {  }  */
+    .site-header.scrolled .brand-logo img { width: 80px; }
     .mobile-toggle { display: flex; margin-left: auto; }
     .header-inner { justify-content: space-between; }
   }
 </style>
 
 <script>
-if (window.innerWidth <= 900) {
-  const updateMobileHeader = () => {
-    if (window.scrollY > 50) {
-      header?.classList.add('scrolled');
-    } else {
-      header?.classList.remove('scrolled');
-    }
-  };
-  window.addEventListener('scroll', updateMobileHeader, { passive: true });
-  updateMobileHeader();
-}
 const header = document.getElementById('siteHeader');
 const brandPage = document.body;
 const isBrandPage = window.location.pathname.startsWith('/brand');
@@ -217,6 +207,19 @@ if (isBrandPage) {
   window.addEventListener('scroll', updateHeader, { passive: true });
   updateHeader();
 }
+
+if (window.innerWidth <= 900) {
+  const updateMobileHeader = () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+  };
+  window.addEventListener('scroll', updateMobileHeader, { passive: true });
+  updateMobileHeader();
+}
+
   const toggle = document.getElementById('mobileToggle');
   const menu = document.getElementById('mobileMenu');
   const close = document.getElementById('mobileClose');

@@ -178,9 +178,9 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
   @media (max-width: 900px) {
     .header-inner { padding: 0 20px; }
     .nav-left, .nav-right { display: none; }
-    .brand-logo { position: static; transform: none; }
-    .brand-logo img { width: 74px; }
-    .mobile-toggle { display: flex; }
+    .brand-logo { /* position: static; transform: none; */ top:100px; }
+    .brand-logo img { width: 200px; }
+    .mobile-toggle { display: flex; margin-left: auto; }
     .header-inner { justify-content: space-between; }
   }
 </style>

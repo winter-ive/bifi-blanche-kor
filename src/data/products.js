@@ -9,20 +9,20 @@ export const products = [
     nameEn: 'BIFI BLANCHE\nMICROBIOME SQUALANE FACE OIL',
     nameKr: '비피블랑쉬 마이크로바이옴 스쿠알란 페이스 오일',
     originalPrice: 39000,
-    price: 31200,
+    price: 39000,
     discountRate: 20,
     image: '/images/thumb_faceoil.jpg',
-    shopUrl: 'https://smartstore.naver.com/'
+    shopUrl: 'https://smartstore.naver.com/bifiblanche/products/13702789881/?utm_sources=bifiblanche.kr-best-sec'
   },
   {
     id: 'sun-cream',
     badge: 'BEST PRODUCT',
     nameEn: 'BIFI BLANCHE\nMICROBIOME SUNSCREEN',
     nameKr: '비피블랑쉬 마이크로바이옴 선크림',
-    originalPrice: 42000,
-    price: 33600,
+    originalPrice: 32000,
+    price: 32000,
     discountRate: 20,
     image: '/images/bifi_suncream.jpg',
-    shopUrl: 'https://smartstore.naver.com/'
+    shopUrl: 'https://smartstore.naver.com/bifiblanche/products/13703149673/?utm_sources=bifiblanche.kr-best-sec'
   }
 ];

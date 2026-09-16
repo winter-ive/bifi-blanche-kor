@@ -174,12 +174,13 @@ const formatPrice = (n: number) => n.toLocaleString("ko-KR") + "원";
     .badge { display:none;}
     .badge.mobile { 
       display:block;
+      position:absolute;
       font-size: 30px;
       top: 25px;
       margin: 0 auto;
       z-index: 2;
-}
-.ps-grid { grid-template-columns: 1fr; }
+    }
+    .ps-grid { grid-template-columns: 1fr; }
     .ps-text { padding: 60px 24px; order: 2; }
     .ps-image { order: 1; min-height: 420px; }
     .ps-arrow {

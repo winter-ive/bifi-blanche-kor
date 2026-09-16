@@ -5,7 +5,7 @@ import ProductSlider from "../components/ProductSlider.astro";
 <BaseLayout title="Bifi Blanche">
   <!-- Hero -->
   <section class="hero">
-    <div class="hero-img" role="img" aria-label="Bifi Blanche bottles"></div>
+    <a class="hero-img" href="https://smartstore.naver.com/bifiblanche/products/13702847278" aria-label="Bifi Blanche brand"></a>
   </section>
 
   <!-- Product Slider -->
@@ -59,6 +59,7 @@ import ProductSlider from "../components/ProductSlider.astro";
     background: var(--c-bg);
   }
   .hero-img {
+display:block;
     width: 100%;
     height: min(92vh, 970px);
     background: url("/images/main_img.jpg") center/cover no-repeat;

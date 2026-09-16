@@ -98,7 +98,11 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
     transform: translate(-50%, -50%);
     display: block;
   }
-  .brand-logo img { width: 190px; height: auto; }
+  .brand-logo img { width: 190px; height: auto; transition: width 0.3s ease;  }
+
+.site-header.scrolled .brand-logo img {
+ width: 80px;
+ }
 
 .brand-logo .logo-white {
   display: none;
@@ -145,7 +149,7 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
     position: relative;
     height: 100%;
   }
-  .brand-logo-m img { width: 90px; margin-top: 20px; }
+  /* .brand-logo-m img { width: 90px; margin-top: 20px; } brand-logo로 대체 */
   .mobile-close {
     position: absolute;
     top: 24px;
@@ -179,13 +183,24 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
     .header-inner { padding: 0 20px; }
     .nav-left, .nav-right { display: none; }
     .brand-logo { /* position: static; transform: none; */ top:100px; }
-    .brand-logo img { width: 200px; }
+    /*  .brand-logo img {  }  */
     .mobile-toggle { display: flex; margin-left: auto; }
     .header-inner { justify-content: space-between; }
   }
 </style>
 
 <script>
+if (window.innerWidth <= 900) {
+  const updateMobileHeader = () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+  };
+  window.addEventListener('scroll', updateMobileHeader, { passive: true });
+  updateMobileHeader();
+}
 const header = document.getElementById('siteHeader');
 const brandPage = document.body;
 const isBrandPage = window.location.pathname.startsWith('/brand');

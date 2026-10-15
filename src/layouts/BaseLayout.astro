@@ -18,7 +18,14 @@ const { title = "비피블랑쉬 BIFI BLANCHE | 공식 브랜드 사이트", des
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="format-detection" content="telephone=no" />
-<meta name="naver-site-verification" content="f25dad838042703bf5c88118fa85eb6d19f14600" />
+    <meta name="naver-site-verification" content="f25dad838042703bf5c88118fa85eb6d19f14600" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="비피블랑쉬 BIFI BLANCHE" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:image" content="https://bifiblanche.kr/images/bifiblanche_og_image.jpg" />
+    <meta property="og:locale" content="ko_KR" />
     <title>{title}</title>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   </head>

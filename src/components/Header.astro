@@ -100,8 +100,12 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
   }
   .brand-logo img { width: 190px; height: auto; transition: width 0.3s ease;  }
 
+.site-header.scrolled .brand-logo {
+  top: 50%;
+  margin-top: 20px;
+}
 .site-header.scrolled .brand-logo img {
- width: 80px;
+ width: 120px;
  }
 
 .brand-logo .logo-white {
@@ -130,7 +134,7 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
 
   /* Mobile */
   .mobile-toggle { display: none; flex-direction: column; gap: 4px; width: 26px; height: 20px; justify-content: center; }
-  .mobile-toggle span { display: block; width: 24px; height: 1.5px; background: currentColor; }
+  .mobile-toggle span { display: block; width: 24px; height: 2px; background: currentColor; }
 
   .mobile-menu {
     position: fixed;
@@ -185,7 +189,8 @@ const logoSrc = inverted ? '/images/nav_logo_white_2x.png' : '/images/nav_logo_2
     .brand-logo { /* position: static; transform: none; */ top:100px; }
     /*  .brand-logo img {  }  */
     .brand-logo.m-menu { display: block; }
-    .site-header.scrolled .brand-logo img { width: 80px !important; transform:translateY(-50px);}
+    .site-header.scrolled .brand-logo {top:120%; }
+    .site-header.scrolled .brand-logo img { width: 100px !important; transform:translateY(-50px);}
     .mobile-toggle { display: flex; margin-left: auto; }
     .header-inner { justify-content: space-between; }
   }
@@ -208,17 +213,17 @@ if (isBrandPage) {
   updateHeader();
 }
 
-if (window.innerWidth <= 900) {
-  const updateMobileHeader = () => {
-    if (window.scrollY > 50) {
-      header?.classList.add('scrolled');
-    } else {
-      header?.classList.remove('scrolled');
-    }
-  };
-  window.addEventListener('scroll', updateMobileHeader, { passive: true });
-  updateMobileHeader();
-}
+// 스크롤 시 헤더 로고 축소 — 데스크톱 + 모바일 공통
+const updateHeaderScroll = () => {
+  const threshold = window.innerWidth <= 900 ? 50 : 120;
+  if (window.scrollY > threshold) {
+    header?.classList.add('scrolled');
+  } else {
+    header?.classList.remove('scrolled');
+  }
+};
+window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+updateHeaderScroll();
 
   const toggle = document.getElementById('mobileToggle');
   const menu = document.getElementById('mobileMenu');

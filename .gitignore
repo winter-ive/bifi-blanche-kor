@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Notion 이미지 캐시 (빌드 시점에 자동 재생성)
+public/notion-images/

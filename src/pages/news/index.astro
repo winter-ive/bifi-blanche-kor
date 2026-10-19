@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { news } from "../../data/news.js";
+import { getAllPublishedPosts } from "../../lib/notion.js";
 
-const sorted = [...news].sort((a, b) => (a.date < b.date ? 1 : -1));
+const posts = await getAllPublishedPosts();
 ---
 <BaseLayout title="브랜드 소식 | 비피블랑쉬 BIFI BLANCHE" description="비피블랑쉬의 신제품, 팝업스토어, 프로모션 및 다양한 브랜드 소식을 확인하세요.">
   <section class="news-list">
@@ -10,21 +10,27 @@ const sorted = [...news].sort((a, b) => (a.date < b.date ? 1 : -1));
       <h1 class="page-title">NEWS</h1>
       <p class="page-sub">비피블랑쉬의 소식을 전해드립니다.</p>
 
-      <ul class="cards">
-        {sorted.map((n) => (
-          <li class="card">
-            <a href={`/news/${n.slug}`} class="card-link">
-              <div class="thumb" style={`background-image:url('${n.thumbnail}')`} aria-hidden="true"></div>
-              <div class="body">
-                <p class="date">{n.date}</p>
-                <h3 class="title">{n.title}</h3>
-                <p class="excerpt">{n.excerpt}</p>
-                <span class="more">READ MORE →</span>
-              </div>
-            </a>
-          </li>
-        ))}
-      </ul>
+      {posts.length === 0 ? (
+        <p class="empty">아직 등록된 소식이 없습니다.</p>
+      ) : (
+        <div class="cards" id="masonry">
+          {posts.map((n) => (
+            <article class="card">
+              <a href={`/news/${n.slug}`} class="card-link">
+                {n.thumbnail && (
+                  <div class="thumb">
+                    <img src={n.thumbnail} alt="" loading="lazy" />
+                  </div>
+                )}
+                <div class="body">
+                  <p class="date">{n.date}</p>
+                  <h3 class="title">{n.title}</h3>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      )}
     </div>
   </section>
 </BaseLayout>
@@ -32,84 +38,132 @@ const sorted = [...news].sort((a, b) => (a.date < b.date ? 1 : -1));
 <style>
   .news-list {
     background: var(--c-white);
+    /* 헤더 아래 body bg(회색)가 보이지 않도록 섹션을 nav 위까지 끌어올림 */
+    margin-top: calc(var(--nav-h) * -1);
     padding: calc(var(--nav-h) + 40px) 40px 120px;
     min-height: 80vh;
   }
-  .news-inner { max-width: 1200px; margin: 0 auto; }
+  .news-inner { max-width: 1400px; margin: 0 auto; }
 
   .page-title {
     font-size: 32px;
     letter-spacing: var(--ls-display);
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-top: 150px;
     text-align: center;
   }
   .page-sub {
     text-align: center;
     color: var(--c-text-sub);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 300;
     margin-bottom: 60px;
   }
+  .empty {
+    text-align: center;
+    color: var(--c-text-mute);
+    padding: 80px 0;
+  }
 
+  /* Masonry: JS로 N개 column flexbox 생성, 아이템을 가로 우선(행 단위)으로 분배 */
+  /* :global() — JS가 동적 생성하는 .masonry-col 에도 스타일 적용되도록 scoped CSS 우회 */
   .cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  .cards :global(.masonry-col) {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 50px 24px;
   }
   .card {
-    border: 1px solid #EEE;
-    border-radius: 4px;
-    overflow: hidden;
+    width: 100%;
     background: var(--c-white);
-    transition: transform .2s ease, box-shadow .2s ease;
+    transition: transform .25s ease;
   }
-  .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,.06);
-  }
-  .card-link { display: block; height: 100%; }
+  .card:hover { transform: translateY(-3px); }
+  .card-link { display: block; }
+
   .thumb {
     width: 100%;
-    aspect-ratio: 4 / 3;
-    background-size: cover;
-    background-position: center;
-    background-color: #F0F0F0;
+    overflow: hidden;
+    background: #F3F3F3;
+    line-height: 0;
+    border-radius: 12px;
   }
-  .body { padding: 20px 24px 24px; }
+  .thumb img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .body { padding: 16px 4px 4px; }
   .date {
-    font-size: 11px;
+    font-size: 16px;
     color: var(--c-text-mute);
     letter-spacing: 0.04em;
-    margin-bottom: 8px;
+    margin-bottom:2px;
   }
   .title {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.5;
-    margin-bottom: 10px;
-  }
-  .excerpt {
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--c-text-sub);
-    line-height: 1.7;
-    margin-bottom: 16px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .more {
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    font-weight: 400;
-    color: var(--c-text);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
   }
 
   @media (max-width: 900px) {
     .news-list { padding: calc(var(--nav-h) + 20px) 20px 80px; }
-    .cards { grid-template-columns: 1fr; gap: 20px; }
+    .cards { gap: 16px; }
+    .cards :global(.masonry-col) { gap: 80px; }
     .page-title { font-size: 24px; }
   }
 </style>
+
+<script is:inline>
+  // Masonry: 뷰포트 폭에 따라 N개 column 생성, 아이템을 가로 우선(행 단위)으로 분배
+  // 결과 순서: [1][2][3][4] / [5][6]  (최신 top-left)
+  (function () {
+    const container = document.getElementById('masonry');
+    if (!container) return;
+
+    // 원본 카드 보존 (재배치용)
+    const originalCards = Array.from(container.children);
+
+    const getCols = () => {
+      const w = window.innerWidth;
+      if (w >= 1600) return 4;
+      if (w >= 900) return 3;
+      if (w >= 520) return 2;
+      return 1;
+    };
+
+    let currentCols = -1;
+
+    const layout = () => {
+      const cols = getCols();
+      if (cols === currentCols) return;
+      currentCols = cols;
+
+      container.innerHTML = '';
+      const columnEls = [];
+      for (let i = 0; i < cols; i++) {
+        const col = document.createElement('div');
+        col.className = 'masonry-col';
+        container.appendChild(col);
+        columnEls.push(col);
+      }
+      originalCards.forEach((card, idx) => {
+        columnEls[idx % cols].appendChild(card);
+      });
+    };
+
+    layout();
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(layout, 150);
+    });
+  })();
+</script>

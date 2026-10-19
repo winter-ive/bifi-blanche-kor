@@ -1,33 +1,58 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { news } from "../../data/news.js";
+import { getAllPublishedPosts, getPostBySlug } from "../../lib/notion.js";
 
-export function getStaticPaths() {
-  return news.map((n) => ({ params: { slug: n.slug }, props: { post: n } }));
+export async function getStaticPaths() {
+  const posts = await getAllPublishedPosts();
+  const entries = [];
+  for (const p of posts) {
+    const full = await getPostBySlug(p.slug);
+    if (full) entries.push({ params: { slug: p.slug }, props: { post: full } });
+  }
+  return entries;
 }
+
 const { post } = Astro.props;
 ---
-<BaseLayout title={`${post.title} | Bifi Blanche NEWS`} description={post.excerpt}>
+<BaseLayout title={`${post.title} | 비피블랑쉬 BIFI BLANCHE NEWS`}>
   <article class="news-detail">
     <div class="detail-inner">
       <p class="date">{post.date}</p>
       <h1 class="title">{post.title}</h1>
 
-      <div class="cover" style={`background-image:url('${post.thumbnail}')`}></div>
+      {post.thumbnail && (
+        <div class="cover">
+          <img src={post.thumbnail} alt="" />
+        </div>
+      )}
 
-      <div class="content" set:html={post.body}></div>
+      <div class="content" set:html={post.bodyHtml}></div>
 
       <div class="nav-back">
         <a href="/news">← BACK TO NEWS</a>
       </div>
     </div>
   </article>
+
+  <!-- 하단 브랜드 소개 섹션 (상세 페이지 공통) -->
+  <section class="brand-promo">
+    <div class="promo-inner">
+      <h2 class="promo-title">BIFI BLANCHE</h2>
+      <p class="promo-desc">
+        비피블랑쉬는 피부를 하나의 생태계로 바라봅니다.<br />
+        순수한 균형, 자극지수 0.00의 원칙으로<br />
+        당신의 피부 생태계를 지킵니다.
+      </p>
+      <a href="/brand" class="promo-link">LEARN MORE →</a>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
   .news-detail {
     background: var(--c-white);
-    padding: calc(var(--nav-h) + 40px) 40px 120px;
+    margin-top: calc(var(--nav-h) * -1);
+    padding: calc(var(--nav-h) + 40px) 20px 80px;
   }
   .detail-inner {
     max-width: 800px;
@@ -46,16 +71,22 @@ const { post } = Astro.props;
     line-height: 1.4;
     text-align: center;
     margin-bottom: 40px;
-    letter-spacing: 0em;
+    letter-spacing: 0;
   }
   .cover {
     width: 100%;
-    aspect-ratio: 16 / 9;
-    background-size: cover;
-    background-position: center;
-    background-color: #F0F0F0;
     margin-bottom: 60px;
+    border-radius: 12px;
+    overflow: hidden;
+    line-height: 0;
   }
+  .cover img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* 본문 content — 가로폭 800px(상위에서 제한), 이미지 width 100%, 비율 보존, 폰트 고정 */
   .content {
     font-size: 15px;
     font-weight: 300;
@@ -65,11 +96,64 @@ const { post } = Astro.props;
   .content :global(p) {
     margin-bottom: 20px;
   }
-  .content :global(img) {
-    width: 100%;
+  .content :global(h2) {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 40px 0 16px;
+    letter-spacing: 0;
+  }
+  .content :global(ul),
+  .content :global(ol) {
+    margin: 0 0 20px;
+    padding-left: 20px;
+  }
+  .content :global(ul) { list-style: disc; }
+  .content :global(ol) { list-style: decimal; }
+  .content :global(li) { margin-bottom: 8px; }
+  .content :global(blockquote) {
+    border-left: 3px solid var(--c-text-mute);
+    padding: 4px 0 4px 16px;
+    margin: 24px 0;
+    color: var(--c-text-sub);
+    font-style: italic;
+  }
+  .content :global(hr) {
+    border: 0;
+    border-top: 1px solid #E0E0E0;
+    margin: 40px 0;
+  }
+  .content :global(a) {
+    color: var(--c-text);
+    text-decoration: underline;
+  }
+  .content :global(strong) { font-weight: 600; }
+  .content :global(u) { text-decoration: underline; }
+  .content :global(mark) {
+    background: #FFF59D;
+    color: inherit;
+    padding: 0 2px;
+  }
+  .content :global(figure) {
     margin: 32px 0;
   }
-  .content :global(strong) { font-weight: 500; }
+  .content :global(figure img) {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+  .content :global(figcaption) {
+    font-size: 12px;
+    color: var(--c-text-mute);
+    text-align: center;
+    margin-top: 10px;
+  }
+  .content :global(img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
 
   .nav-back {
     margin-top: 80px;
@@ -80,14 +164,51 @@ const { post } = Astro.props;
   .nav-back a {
     font-size: 12px;
     letter-spacing: 0.16em;
-    font-weight: 600;
+    font-weight: 500;
   }
   .nav-back a:hover { color: var(--c-accent); }
 
+  /* 하단 브랜드 소개 섹션 */
+  .brand-promo {
+    background: #EFEFEF;
+    padding: 100px 20px;
+    text-align: center;
+  }
+  .promo-inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .promo-title {
+    font-size: 22px;
+    letter-spacing: var(--ls-display);
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .promo-desc {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--c-text-sub);
+    margin-bottom: 32px;
+  }
+  .promo-link {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    padding: 12px 32px;
+    border: 1px solid var(--c-text);
+    transition: background .2s, color .2s;
+  }
+  .promo-link:hover {
+    background: var(--c-text);
+    color: var(--c-white);
+  }
+
   @media (max-width: 900px) {
-    .news-detail { padding: calc(var(--nav-h) + 20px) 20px 80px; }
     .title { font-size: 22px; }
     .cover { margin-bottom: 40px; }
     .content { font-size: 14px; }
+    .brand-promo { padding: 70px 20px; }
   }
 </style>

@@ -17,14 +17,14 @@ const { post } = Astro.props;
 <BaseLayout title={`${post.title} | 비피블랑쉬 BIFI BLANCHE NEWS`}>
   <article class="news-detail">
     <div class="detail-inner">
-      <p class="date">{post.date}</p>
       <h1 class="title">{post.title}</h1>
+      <p class="date">{post.date}</p>
 
-      {post.thumbnail && (
+      <!-- {post.thumbnail && (
         <div class="cover">
           <img src={post.thumbnail} alt="" />
         </div>
-      )}
+      )} 상세페이지에는 썸네일 넣지 않을 거라 생략 -->
 
       <div class="content" set:html={post.bodyHtml}></div>
 
@@ -70,7 +70,7 @@ const { post } = Astro.props;
     font-weight: 500;
     line-height: 1.4;
     text-align: center;
-    margin-bottom: 40px;
+    margin-top: 120px;
     letter-spacing: 0;
   }
   .cover {

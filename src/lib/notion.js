@@ -134,14 +134,14 @@ async function blockToHtml(block) {
   const type = block.type;
   const data = block[type];
 
+  // 모든 레벨의 heading(heading_1~N)을 하나의 h2로 통일
+  if (type.startsWith("heading_")) {
+    return `<h2>${richTextToHtml(data.rich_text)}</h2>`;
+  }
+
   switch (type) {
     case "paragraph":
       return `<p>${richTextToHtml(data.rich_text)}</p>`;
-
-    case "heading_1":
-    case "heading_2":
-    case "heading_3":
-      return `<h2>${richTextToHtml(data.rich_text)}</h2>`;
 
     case "bulleted_list_item":
       return `<li>${richTextToHtml(data.rich_text)}</li>`;

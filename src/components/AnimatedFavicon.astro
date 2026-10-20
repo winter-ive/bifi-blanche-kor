@@ -1,0 +1,25 @@
+---
+// 3프레임 애니메이션 파비콘 (1초 간격)
+---
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32-1.png" data-anim-favicon="32" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16-1.png" data-anim-favicon="16" />
+
+<script>
+  const FRAMES = 3;
+  const INTERVAL = 1000;
+  const src = (size: string, i: number) => `/favicon/favicon-${size}-${i}.png`;
+
+  // 프리로드
+  for (let i = 1; i <= FRAMES; i++) {
+    new Image().src = src('16', i);
+    new Image().src = src('32', i);
+  }
+
+  let frame = 1;
+  setInterval(() => {
+    frame = (frame % FRAMES) + 1;
+    document
+      .querySelectorAll<HTMLLinkElement>('link[data-anim-favicon]')
+      .forEach((el) => (el.href = src(el.dataset.animFavicon!, frame)));
+  }, INTERVAL);
+</script>

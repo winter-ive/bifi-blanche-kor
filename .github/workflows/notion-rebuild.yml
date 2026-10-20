@@ -1,0 +1,26 @@
+name: Notion content rebuild
+
+# 노션 Database 내용을 사이트에 반영하기 위한 주기 재빌드
+# · 2시간마다 Vercel Deploy Hook 호출 → 노션 fetch 재실행 → 사이트 갱신
+# · 깃헙 Actions UI 에서 "Run workflow" 로 수동 즉시 트리거도 가능
+# · 유료 플랜 불필요, 노션 변경 감지 X (주기 폴링만)
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"   # 매 2시간 (00시, 02시, 04시, ... UTC 기준)
+  workflow_dispatch:         # 수동 실행 허용
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Vercel Deploy Hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::error::VERCEL_DEPLOY_HOOK secret 이 비어있습니다. GitHub Repo Settings → Secrets에 등록하세요."
+            exit 1
+          fi
+          echo "Triggering Vercel rebuild..."
+          curl -X POST -s -o /dev/null -w "HTTP %{http_code}\n" "$HOOK"

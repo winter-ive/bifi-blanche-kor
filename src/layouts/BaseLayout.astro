@@ -4,6 +4,7 @@ import Ticker from "../components/Ticker.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import FloatingIcons from "../components/FloatingIcons.astro";
+import AnimatedFavicon from '../components/AnimatedFavicon.astro';
 
 interface Props {
   title?: string;
@@ -26,6 +27,7 @@ const { title = "비피블랑쉬 BIFI BLANCHE | 공식 브랜드 사이트", des
     <meta property="og:url" content={Astro.url.href} />
     <meta property="og:image" content="https://bifiblanche.kr/images/bifiblanche_og_image.jpg" />
     <meta property="og:locale" content="ko_KR" />
+    <AnimatedFavicon />
     <title>{title}</title>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   </head>

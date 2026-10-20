@@ -4,13 +4,31 @@ import Ticker from "../components/Ticker.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import FloatingIcons from "../components/FloatingIcons.astro";
-import AnimatedFavicon from '../components/AnimatedFavicon.astro';
+import AnimatedFavicon from "../components/AnimatedFavicon.astro";
 
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;      // 페이지별 공유 이미지 (상대 경로 또는 절대 URL)
+  canonical?: string;    // 사용자 지정 canonical URL (기본값: 현재 URL)
 }
-const { title = "비피블랑쉬 BIFI BLANCHE | 공식 브랜드 사이트", description = "피부 생태계의 균형을 생각하는 스킨케어 브랜드 비피블랑쉬(BIFI BLANCHE). 브랜드 철학과 스킨케어 제품을 만나보고 네이버 공식 스토어에서 구매하세요." } = Astro.props;
+
+const SITE_URL = "https://bifiblanche.kr";
+const DEFAULT_OG_IMAGE = "/images/bifiblanche_og_image.jpg";
+
+const {
+  title = "비피블랑쉬 BIFI BLANCHE | 공식 브랜드 사이트",
+  description = "피부 생태계의 균형을 생각하는 스킨케어 브랜드 비피블랑쉬(BIFI BLANCHE). 브랜드 철학과 스킨케어 제품을 만나보고 네이버 공식 스토어에서 구매하세요.",
+  ogImage,
+  canonical,
+} = Astro.props;
+
+// og:image를 항상 절대 URL로 변환 (SNS 공유 시 안정적)
+const resolvedOgImage = (ogImage || DEFAULT_OG_IMAGE).startsWith("http")
+  ? (ogImage || DEFAULT_OG_IMAGE)
+  : `${SITE_URL}${(ogImage || DEFAULT_OG_IMAGE).startsWith("/") ? "" : "/"}${ogImage || DEFAULT_OG_IMAGE}`;
+
+const canonicalUrl = canonical || Astro.url.href;
 ---
 <!doctype html>
 <html lang="ko">
@@ -20,14 +38,33 @@ const { title = "비피블랑쉬 BIFI BLANCHE | 공식 브랜드 사이트", des
     <meta name="description" content={description} />
     <meta name="format-detection" content="telephone=no" />
     <meta name="naver-site-verification" content="f25dad838042703bf5c88118fa85eb6d19f14600" />
+
+    <!-- Favicon: 애니메이션 3프레임 (AnimatedFavicon.astro) + 폴백 ico -->
+    <AnimatedFavicon />
+    <link rel="shortcut icon" href="/favicon/261020_bifiblanche_favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon/261020_bifiblanche_favicon.ico" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="비피블랑쉬 BIFI BLANCHE" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={Astro.url.href} />
-    <meta property="og:image" content="https://bifiblanche.kr/images/bifiblanche_og_image.jpg" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
     <meta property="og:locale" content="ko_KR" />
-    <AnimatedFavicon />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+
     <title>{title}</title>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   </head>

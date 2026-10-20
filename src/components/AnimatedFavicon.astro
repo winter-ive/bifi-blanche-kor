@@ -1,13 +1,15 @@
 ---
 // 3프레임 애니메이션 파비콘 (1초 간격)
+// 실제 파일: public/favicon/261020_bifiblanche_favicon_{size}px_{frame}.png
 ---
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32-1.png" data-anim-favicon="32" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16-1.png" data-anim-favicon="16" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/261020_bifiblanche_favicon_32px_1.png" data-anim-favicon="32" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/261020_bifiblanche_favicon_16px_1.png" data-anim-favicon="16" />
 
 <script>
   const FRAMES = 3;
   const INTERVAL = 1000;
-  const src = (size: string, i: number) => `/favicon/favicon-${size}-${i}.png`;
+  const src = (size: string, i: number) =>
+    `/favicon/261020_bifiblanche_favicon_${size}px_${i}.png`;
 
   // 프리로드
   for (let i = 1; i <= FRAMES; i++) {
